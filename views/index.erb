@@ -1,0 +1,54 @@
+<h1>To Do App</h1>
+
+<form action="/database_reset" method="post">
+  <input name="_method" type="hidden" value="delete">
+  <button class="btn btn-danger" type="submit">Database Reset</button>
+</form>
+
+<% if @lists.any?() %>
+  <h4>Here are all your lists, click on it to see its tasks: </h4>
+<ul>
+  <% @lists.each() do |list|%>
+    <li><%=list.description()%>  <a href="/lists/<%=list.id()%>">  View Details</a></li>
+  <% end %>
+</ul>
+
+<% else %>
+  <h4>There are no lists yet!</h4>
+<% end %>
+
+<p>Create a new list:</p>
+
+<form action="/lists" method="post">
+  <label for="description">List Name: </label>
+  <input type="text" name="description" id="description">
+  <button class="btn btn-primary" type="submit">Add list</button>
+</form>
+
+<hr>
+
+<p> Add tasks to any list:</p>
+
+<form action="/tasks" method="post">
+  <label for="list_id">Select a List</label>
+    <select id='list_id' name='list_id' type='text'>
+      <% @lists.each() do |list| %>
+        <option value="<%= list.id()%>"> <%= list.description() %> </option>
+      <% end %>
+    </select>
+
+
+  <label for="description">Description of the task:</label>
+    <input id="description" name="description" type="text">
+  <button class="btn btn-success"type="submit">Add task</button>
+</form>
+
+  <hr>
+
+Below historic done tasks for reference:
+
+  <ul>
+    <% @tasks.done().each() do |task| %>
+      <li><%=task.description()%></li>
+    <% end %>
+  </ul>

@@ -1,0 +1,20 @@
+<h1><%=@list.description()%></h1>
+  <% if @list.tasks().any?() %>
+    <h4>Tasks belong to this list:</h4>
+  <ul>
+    <% @list.tasks().not_done().each() do |task| %>
+      <li><%=task.description()%><a href="/tasks/<%= task.id() %>/edit"> Update task's name</a></li>
+    <% end %>
+  </ul>
+  <% else %>
+    <p>This list currently has no tasks!</p>
+  <% end %>
+
+  <a class="btn btn-primary" href="/">Home</a>
+  <a class="btn btn-success" href="/lists/<%= @list.id %>/edit">Edit List</a>
+  <a class = "btn btn-info" href="/lists/<%=@list.id%>/add_task">Add Task to this list</a>
+  <hr>
+  <form action="/lists/<%= @list.id() %>" method="post">
+    <input name="_method" type="hidden" value="delete">
+    <button class="btn btn-danger" type="submit">Delete List</button>
+  </form>
