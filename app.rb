@@ -64,7 +64,7 @@ end
 patch('/tasks/:id') do
   @task = Task.find(params.fetch("id").to_i())
   description = params.fetch("description", @task.description())
-  done = params.fetch("done", @task.done())
+  done = params.has_key? ("done") #gordon's solution, if no key (not checked) return false
   @task.update({:description => description, :done => done})
   @list = @task.list()
   redirect to ("/lists/#{@list.id()}")
